@@ -27,10 +27,20 @@
         </div>
         <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
             <p class="font-bold">Note</p>
-            <p>You can download a CSV from the parts list page and use that as a template to bulk update or add new parts.</p>
+                <p class="mb-2">
+                    You can download a CSV from the parts list page and use that as a template to bulk update or add new parts.
+                </p>
+                <p class="font-semibold">For Status:</p>
+                <ul class="list-disc list-inside">
+                    <li><span class="font-semibold">0:</span> Bulk</li>
+                    <li><span class="font-semibold">1:</span> Active</li>
+                    <li><span class="font-semibold">2:</span> Archive</li>
+                </ul>
+
         </div>
-
-
+        <a href="{{ asset('bulk-import.csv') }}" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-md shadow mb-12" download>
+            Download Bulk Import CSV
+        </a>
 
         <livewire:import-parts/>
     </div>

@@ -1,9 +1,4 @@
-<div>
-    {{-- <form wire:submit.prevent="import">
-        <input type="file" wire:model="file">
-        @error('file') <span class="error">{{ $message }}</span> @enderror
-        <button type="submit">Import</button>
-    </form> --}}
+<div class="mt-8">
 
     <form wire:submit.prevent="import" class="flex flex-col space-y-4 items-start">
         <div class="w-full">
@@ -14,7 +9,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-black font-bold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             Import
         </button>
     </form>
