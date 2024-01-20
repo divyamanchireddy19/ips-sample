@@ -1,14 +1,19 @@
 <?php
 
-use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Controllers\Auth\LogoutController;
 use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Passwords\Confirm;
+use App\Livewire\Auth\Verify;
+use App\Livewire\Auth\Register;
+use App\Livewire\Inventory\EditPart;
+// use App\Http\Livewire\ImportParts;
+use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Passwords\Email;
 use App\Livewire\Auth\Passwords\Reset;
-use App\Livewire\Auth\Register;
-use App\Livewire\Auth\Verify;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Inventory\CreatePart;
+use App\Livewire\Auth\Passwords\Confirm;
+use App\Http\Controllers\PartsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,38 +24,51 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::view('/', 'welcome')->name('home');
 
 Route::middleware('guest')->group(function () {
-    Route::get('login', Login::class)
-        ->name('login');
+	Route::get('login', Login::class)
+		->name('login');
 
-    Route::get('register', Register::class)
-        ->name('register');
+	Route::get('register', Register::class)
+		->name('register');
 });
 
 Route::get('password/reset', Email::class)
-    ->name('password.request');
+	->name('password.request');
 
 Route::get('password/reset/{token}', Reset::class)
-    ->name('password.reset');
+	->name('password.reset');
 
 Route::middleware('auth')->group(function () {
-    Route::get('email/verify', Verify::class)
-        ->middleware('throttle:6,1')
-        ->name('verification.notice');
+	Route::get('email/verify', Verify::class)
+		->middleware('throttle:6,1')
+		->name('verification.notice');
 
-    Route::get('password/confirm', Confirm::class)
-        ->name('password.confirm');
+	Route::get('password/confirm', Confirm::class)
+		->name('password.confirm');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
-        ->middleware('signed')
-        ->name('verification.verify');
+	Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
+		->middleware('signed')
+		->name('verification.verify');
 
-    Route::post('logout', LogoutController::class)
-        ->name('logout');
+	Route::post('logout', LogoutController::class)
+		->name('logout');
 });
+Route::get('users', [UsersController::class, 'users']);
+Route::middleware('auth')->group(function () {
+
+	Route::get('inventory/parts/create', CreatePart::class)->name('inventory.parts.create');
+	Route::get('inventory/parts', [PartsController::class, 'index'])->name('inventory.parts');
+	Route::get('inventory/parts/bulk-import', [PartsController::class, 'bulkImport'])->name('inventory.parts.bulk-import');
+
+	Route::get('/inventory/edit-part/{partId}', EditPart::class)->name('inventory.edit-part');
+
+});
+// Edit
+// Delete
+// Add routes for create, edit, delete
